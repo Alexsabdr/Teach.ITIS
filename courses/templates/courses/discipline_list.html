@@ -1,0 +1,98 @@
+{% extends "courses/base.html" %}
+
+
+{% block title %}
+
+    Дисциплины — Teach.ITIS
+
+{% endblock %}
+
+
+{% block content %}
+
+<h1>
+    Каталог дисциплин
+</h1>
+
+
+{% if disciplines %}
+
+    {% for discipline in disciplines %}
+
+        <div class="card">
+
+            <h2>
+
+                <a
+                    href="
+                    {% url
+                    'courses:discipline_detail'
+                    discipline.slug
+                    %}
+                    "
+                >
+
+                    {{ discipline.title }}
+
+                </a>
+
+            </h2>
+
+
+            <p>
+
+                {% if discipline.description %}
+
+                    {{ discipline.description|truncatewords:25 }}
+
+                {% else %}
+
+                    Описание пока отсутствует.
+
+                {% endif %}
+
+            </p>
+
+
+            <p>
+
+                Автор:
+
+                {{ discipline.created_by }}
+
+            </p>
+
+
+            <a
+                class="button"
+                href="
+                {% url
+                'courses:discipline_detail'
+                discipline.slug
+                %}
+                "
+            >
+
+                Открыть
+
+            </a>
+
+        </div>
+
+    {% endfor %}
+
+
+{% else %}
+
+    <div class="card">
+
+        <p>
+            Дисциплины пока не добавлены.
+        </p>
+
+    </div>
+
+{% endif %}
+
+
+{% endblock %}

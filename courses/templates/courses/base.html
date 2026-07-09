@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>
+        {% block title %}
+            Teach.ITIS
+        {% endblock %}
+    </title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        header {
+            background: #235c7a;
+            padding: 20px 40px;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 40px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0, 0, 0, 0.08);
+        }
+
+        .button {
+            display: inline-block;
+
+            padding:
+                10px 18px;
+
+            border: none;
+            border-radius: 7px;
+
+            background: #235c7a;
+            color: white;
+
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .button-secondary {
+            background: #637381;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+
+            padding: 10px;
+
+            margin-top: 5px;
+
+            box-sizing: border-box;
+        }
+
+        .form-field {
+            margin-bottom: 20px;
+        }
+
+        .error {
+            color: #b00020;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <nav>
+
+        <a
+            class="logo"
+            href="{% url 'courses:discipline_list' %}"
+        >
+            Teach.ITIS
+        </a>
+
+        <a
+            href="{% url 'courses:discipline_create' %}"
+        >
+            Добавить дисциплину
+        </a>
+
+    </nav>
+
+</header>
+
+<main class="container">
+
+    {% block content %}
+    {% endblock %}
+
+</main>
+
+</body>
+
+</html>
