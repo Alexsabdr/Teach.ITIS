@@ -1,9 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
+from accounts.services import (
+    ensure_can_manage_disciplines,
+)
+
 from .forms import DisciplineForm
 from .models import Discipline
-
 
 def discipline_list(request):
     disciplines = (
@@ -40,10 +43,11 @@ def discipline_detail(request, slug):
         "courses/discipline_detail.html",
         context,
     )
-
-
-@login_required(login_url="/admin/login/")
+@login_required
 def discipline_create(request):
+    ensure_can_manage_disciplines(
+        request.user
+    )
     if request.method == "POST":
         form = DisciplineForm(request.POST)
 
@@ -74,9 +78,11 @@ def discipline_create(request):
         context,
     )
 
-
-@login_required(login_url="/admin/login/")
+@login_required
 def discipline_edit(request, slug):
+    ensure_can_manage_disciplines(
+        request.user
+    )
     discipline = get_object_or_404(
         Discipline,
         slug=slug,
@@ -113,3 +119,4 @@ def discipline_edit(request, slug):
         "courses/discipline_form.html",
         context,
     )
+

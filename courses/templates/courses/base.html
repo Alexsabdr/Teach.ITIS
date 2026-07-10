@@ -109,24 +109,132 @@
 
     <nav>
 
-        <a
-            class="logo"
-            href="{% url 'courses:discipline_list' %}"
-        >
-            Teach.ITIS
-        </a>
+    <a
+        class="logo"
+        href="
+        {% url 'courses:discipline_list' %}
+        "
+    >
 
-        <a
-            href="{% url 'courses:discipline_create' %}"
-        >
-            Добавить дисциплину
-        </a>
+        Teach.ITIS
 
-    </nav>
+    </a>
+
+
+    <div>
+
+        {% if user.is_authenticated %}
+
+            <span
+                style="
+                    color: white;
+                    margin-right: 15px;
+                "
+            >
+
+                {{ user.username }}
+
+                ·
+
+                {{ user.get_role_display }}
+
+            </span>
+
+
+            {% if user.is_superuser or user.role == "teacher" or user.role == "admin" %}
+
+                <a
+                    href="
+                    {% url 'courses:discipline_create' %}
+                    "
+                >
+
+                    Добавить дисциплину
+
+                </a>
+
+            {% endif %}
+
+
+            <form
+                method="post"
+                action="
+                {% url 'accounts:logout' %}
+                "
+                style="
+                    display: inline;
+                    margin-left: 15px;
+                "
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    style="
+                        border: none;
+                        background: none;
+                        color: white;
+                        cursor: pointer;
+                    "
+                >
+
+                    Выйти
+
+                </button>
+
+            </form>
+
+
+        {% else %}
+
+            <a
+                href="
+                {% url 'accounts:login' %}
+                "
+            >
+
+                Войти
+
+            </a>
+
+
+            <a
+                href="
+                {% url 'accounts:register' %}
+                "
+                style="
+                    margin-left: 15px;
+                "
+            >
+
+                Регистрация
+
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</nav>
 
 </header>
 
 <main class="container">
+
+    {% if messages %}
+
+    {% for message in messages %}
+
+        <div class="card">
+
+            {{ message }}
+
+        </div>
+
+    {% endfor %}
+
+{% endif %}
 
     {% block content %}
     {% endblock %}
