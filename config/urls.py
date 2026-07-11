@@ -18,3 +18,10 @@ urlpatterns = [
         include("courses.urls"),
     ),
 ]
+handler404 = (
+    "config.error_handlers.page_not_found"
+)
+
+handler403 = (
+    "config.error_handlers.permission_denied"
+)

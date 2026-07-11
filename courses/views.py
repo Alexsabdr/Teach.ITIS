@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -54,14 +55,26 @@ def discipline_create(request):
         if form.is_valid():
             discipline = form.save(commit=False)
 
-            discipline.created_by = request.user
+            discipline.created_by = (request.user)
 
             discipline.save()
+
+            messages.success(
+                request,
+                "Дисциплина успешно создана.",
+            )
 
             return redirect(
                 "courses:discipline_detail",
                 slug=discipline.slug,
             )
+
+        else:
+            messages.error(
+                request,
+                "Не удалось создать дисциплину. "
+                "Проверьте введённые данные.",
+        )
 
     else:
         form = DisciplineForm()
@@ -97,9 +110,21 @@ def discipline_edit(request, slug):
         if form.is_valid():
             discipline = form.save()
 
+            messages.success(
+                request,
+                "Изменения успешно сохранены.",
+            )
+
             return redirect(
                 "courses:discipline_detail",
                 slug=discipline.slug,
+            )
+
+        else:
+            messages.error(
+                request,
+                "Не удалось сохранить изменения. "
+                "Проверьте введённые данные.",
             )
 
     else:

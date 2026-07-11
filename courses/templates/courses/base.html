@@ -100,6 +100,21 @@
         .error {
             color: #b00020;
         }
+        .message {
+            border-left: 5px solid #235c7a;
+        }
+
+        .message.success {
+            border-left-color: #198754;
+        }
+
+        .message.error {
+            border-left-color: #dc3545;
+        }
+
+        .message.warning {
+            border-left-color: #ffc107;
+        }
     </style>
 </head>
 
@@ -224,9 +239,15 @@
 
     {% if messages %}
 
-    {% for message in messages %}
+        {% for message in messages %}
 
-        <div class="card">
+         <div
+                 class="
+                    card
+                    message
+                    {{ message.tags }}
+            "
+        >
 
             {{ message }}
 
