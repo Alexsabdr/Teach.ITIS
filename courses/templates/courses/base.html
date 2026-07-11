@@ -115,6 +115,110 @@
         .message.warning {
             border-left-color: #ffc107;
         }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+        .filters {
+            display: grid;
+
+            grid-template-columns:
+        2fr
+        1fr
+        1fr
+        auto;
+
+            gap: 15px;
+
+            align-items: end;
+        }
+
+        .filter-field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        select {
+            width: 100%;
+
+            padding: 10px;
+
+            border: 1px solid #ccd3d9;
+
+            border-radius: 7px;
+
+            box-sizing: border-box;
+        }
+
+        .card-grid {
+            display: grid;
+
+            grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(280px, 1fr)
+        );
+
+            gap: 20px;
+        }
+
+        .card-meta {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+        }
+
+        .badge {
+            display: inline-block;
+
+            padding: 5px 10px;
+
+            border-radius: 20px;
+
+            background: #e5f2f8;
+
+            color: #235c7a;
+
+            font-size: 14px;
+        }
+
+        .muted {
+            color: #637381;
+        }
+
+        .empty-state {
+            text-align: center;
+
+            grid-column: 1 / -1;
+
+            padding: 50px;
+        }
+
+        @media (
+        max-width: 800px
+        ) {
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-actions {
+                flex-wrap: wrap;
+            }
+
+        }
     </style>
 </head>
 
