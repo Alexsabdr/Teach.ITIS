@@ -36,19 +36,23 @@
     </p>
 
 
-    <a
-        class="button"
-        href="
+    {% if can_edit %}
+
+        <a
+                class="button"
+                href="
         {% url
         'courses:discipline_edit'
         discipline.slug
         %}
         "
-    >
+        >
 
-        Редактировать
+            Редактировать
 
-    </a>
+        </a>
+
+{% endif %}
 
 
     <a

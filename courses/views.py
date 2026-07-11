@@ -1,3 +1,12 @@
+from .services import (
+    can_edit_discipline,
+    create_discipline,
+    ensure_can_edit_discipline,
+    get_discipline_authors,
+    get_filtered_disciplines,
+    update_discipline,
+)
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
@@ -10,14 +19,50 @@ from .forms import DisciplineForm
 from .models import Discipline
 
 def discipline_list(request):
+    search_query = (
+        request.GET
+        .get("q", "")
+        .strip()
+    )
+
+    author_id = (
+        request.GET
+        .get("author", "")
+        .strip()
+    )
+
+    sort = (
+        request.GET
+        .get("sort", "title")
+        .strip()
+    )
+
     disciplines = (
-        Discipline.objects
-        .select_related("created_by")
-        .all()
+        get_filtered_disciplines(
+            search_query=search_query,
+            author_id=author_id,
+            sort=sort,
+        )
     )
 
     context = {
-        "disciplines": disciplines,
+        "disciplines":
+            disciplines,
+
+        "authors":
+            get_discipline_authors(),
+
+        "search_query":
+            search_query,
+
+        "selected_author":
+            author_id,
+
+        "selected_sort":
+            sort,
+
+        "result_count":
+            disciplines.count(),
     }
 
     return render(
@@ -37,6 +82,10 @@ def discipline_detail(request, slug):
 
     context = {
         "discipline": discipline,
+        "can_edit": can_edit_discipline(
+            user=request.user,
+            discipline=discipline,
+        ),
     }
 
     return render(
@@ -53,11 +102,10 @@ def discipline_create(request):
         form = DisciplineForm(request.POST)
 
         if form.is_valid():
-            discipline = form.save(commit=False)
-
-            discipline.created_by = (request.user)
-
-            discipline.save()
+            discipline = create_discipline(
+                form=form,
+                user=request.user,
+            )
 
             messages.success(
                 request,
@@ -101,6 +149,11 @@ def discipline_edit(request, slug):
         slug=slug,
     )
 
+    ensure_can_edit_discipline(
+        user=request.user,
+        discipline=discipline,
+    )
+
     if request.method == "POST":
         form = DisciplineForm(
             request.POST,
@@ -108,7 +161,9 @@ def discipline_edit(request, slug):
         )
 
         if form.is_valid():
-            discipline = form.save()
+            discipline = update_discipline(
+                form=form,
+            )
 
             messages.success(
                 request,
