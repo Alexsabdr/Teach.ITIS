@@ -20,6 +20,30 @@ urlpatterns = [
     ),
 
     path(
+        "<slug:discipline_slug>/topics/create/",
+        views.topic_create,
+        name="topic_create",
+    ),
+
+    path(
+        (
+            "<slug:discipline_slug>/"
+            "topics/<slug:topic_slug>/edit/"
+        ),
+        views.topic_edit,
+        name="topic_edit",
+    ),
+
+    path(
+        (
+            "<slug:discipline_slug>/"
+            "topics/<slug:topic_slug>/"
+        ),
+        views.topic_detail,
+        name="topic_detail",
+    ),
+
+    path(
         "<slug:slug>/edit/",
         views.discipline_edit,
         name="discipline_edit",

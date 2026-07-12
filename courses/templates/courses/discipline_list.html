@@ -178,19 +178,10 @@
 
 
             <a
-                class="
-                    button
-                    button-secondary
-                "
-                href="
-                {% url
-                'courses:discipline_list'
-                %}
-                "
+                    class="button button-secondary"
+                    href="{% url 'courses:discipline_list' %}"
             >
-
                 Сбросить
-
             </a>
 
         </div>
@@ -227,20 +218,9 @@
 
 
         <h2>
-
-            <a
-                href="
-                {% url
-                'courses:discipline_detail'
-                discipline.slug
-                %}
-                "
-            >
-
+            <a href="{% url 'courses:discipline_detail' discipline.slug %}">
                 {{ discipline.title }}
-
             </a>
-
         </h2>
 
 
@@ -269,17 +249,10 @@
 
 
         <a
-            class="button"
-            href="
-            {% url
-            'courses:discipline_detail'
-            discipline.slug
-            %}
-            "
+                class="button"
+                href="{% url 'courses:discipline_detail' discipline.slug %}"
         >
-
             Подробнее
-
         </a>
 
     </article>
@@ -318,16 +291,10 @@
 
 
         <a
-            class="button"
-            href="
-            {% url
-            'courses:discipline_list'
-            %}
-            "
+                class="button"
+                href="{% url 'courses:discipline_list' %}"
         >
-
             Сбросить фильтры
-
         </a>
 
     </div>

@@ -11,102 +11,100 @@
 {% block content %}
 
 
-<div class="card">
-
-    <h1>
-
-        {{ discipline.title }}
-
-    </h1>
-
-
-    <p>
-
-        {{ discipline.description|default:"Описание отсутствует." }}
-
-    </p>
-
-
-    <p>
-
-        Автор:
-
-        {{ discipline.created_by }}
-
-    </p>
-
-
-    {% if can_edit %}
-
-        <a
-                class="button"
-                href="
-        {% url
-        'courses:discipline_edit'
-        discipline.slug
-        %}
-        "
-        >
-
-            Редактировать
-
-        </a>
-
-{% endif %}
-
-
-    <a
-        class="button button-secondary"
-        href="
-        {% url
-        'courses:discipline_list'
-        %}
-        "
-    >
-
-        Вернуться к списку
-
-    </a>
-
-</div>
-
-
-<h2>
-    Темы дисциплины
-</h2>
-
-
-{% for topic in discipline.topics.all %}
-
     <div class="card">
 
-        <h3>
+        <h1>
 
-            {{ topic.order_number }}.
+            {{ discipline.title }}
 
-            {{ topic.title }}
-
-        </h3>
+        </h1>
 
 
         <p>
 
-            {{ topic.description }}
+            {{ discipline.description|default:"Описание отсутствует." }}
 
         </p>
 
+
+        <p>
+
+            Автор:
+
+            {{ discipline.created_by }}
+
+        </p>
+
+
+        {% if can_edit %}
+
+            <a
+                    class="button"
+                    href="{% url 'courses:discipline_edit' discipline.slug %}"
+            >
+                Редактировать
+            </a>
+
+        {% endif %}
+
+
+        <a
+                class="button button-secondary"
+                href="{% url 'courses:discipline_list' %}"
+        >
+            Вернуться к списку
+        </a>
+
     </div>
 
 
-{% empty %}
+    <h2>
+        Темы дисциплины
+    </h2>
 
-    <div class="card">
+    {% if can_edit %}
 
-        Темы пока не добавлены.
+        <p>
+            <a
+                    class="button"
+                    href="{% url 'courses:topic_create' discipline.slug %}"
+            >
+                Добавить тему
+            </a>
+        </p>
 
-    </div>
+    {% endif %}
 
-{% endfor %}
+
+    {% for topic in discipline.topics.all %}
+
+        <div class="card">
+
+            <h3>
+                <a href="{% url 'courses:topic_detail' discipline.slug topic.slug %}">
+                    {{ topic.order_number }}. {{ topic.title }}
+                </a>
+            </h3>
+
+
+            <p>
+
+                {{ topic.description }}
+
+            </p>
+
+        </div>
+
+
+    {% empty %}
+
+        <div class="card">
+
+            Темы пока не добавлены.
+
+        </div>
+
+    {% endfor %}
 
 
 {% endblock %}
