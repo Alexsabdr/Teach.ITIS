@@ -1,0 +1,66 @@
+{% extends "courses/base.html" %}
+
+
+{% block title %}
+    {{ topic.title }} — Teach.ITIS
+{% endblock %}
+
+
+{% block content %}
+
+<div class="card">
+
+    <p class="muted">
+        Дисциплина:
+
+        <a href="{% url 'courses:discipline_detail' discipline.slug %}">
+            {{ discipline.title }}
+        </a>
+    </p>
+
+
+    <h1>
+        {{ topic.order_number }}. {{ topic.title }}
+    </h1>
+
+
+    <p>
+        {{ topic.description|default:"Описание темы отсутствует." }}
+    </p>
+
+
+    {% if can_edit %}
+
+        <a
+            class="button"
+            href="{% url 'courses:topic_edit' discipline.slug topic.slug %}"
+        >
+            Редактировать тему
+        </a>
+
+    {% endif %}
+
+
+    <a
+        class="button button-secondary"
+        href="{% url 'courses:discipline_detail' discipline.slug %}"
+    >
+        Вернуться к дисциплине
+    </a>
+
+</div>
+
+
+<div class="card">
+
+    <h2>
+        Материалы темы
+    </h2>
+
+    <p class="muted">
+        Материалы будут добавлены на следующем этапе.
+    </p>
+
+</div>
+
+{% endblock %}
