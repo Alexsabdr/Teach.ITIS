@@ -1,0 +1,41 @@
+{% extends "courses/base.html" %}
+
+
+{% block title %}
+
+Страница не найдена — Teach.ITIS
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="card">
+
+    <h1>
+        Ошибка 404
+    </h1>
+
+    <h2>
+        Страница не найдена
+    </h2>
+
+    <p>
+        {{ error_message }}
+    </p>
+
+    <p>
+        Возможно, адрес был введён неправильно
+        или объект был удалён.
+    </p>
+
+    <a
+        class="button"
+        href="{% url 'courses:discipline_list' %}"
+    >
+        Вернуться к каталогу
+    </a>
+
+</div>
+
+{% endblock %}

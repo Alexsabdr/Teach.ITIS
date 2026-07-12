@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>
+        {% block title %}
+            Teach.ITIS
+        {% endblock %}
+    </title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        header {
+            background: #235c7a;
+            padding: 20px 40px;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 40px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0, 0, 0, 0.08);
+        }
+
+        .button {
+            display: inline-block;
+
+            padding:
+                10px 18px;
+
+            border: none;
+            border-radius: 7px;
+
+            background: #235c7a;
+            color: white;
+
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .button-secondary {
+            background: #637381;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+
+            padding: 10px;
+
+            margin-top: 5px;
+
+            box-sizing: border-box;
+        }
+
+        .form-field {
+            margin-bottom: 20px;
+        }
+
+        .error {
+            color: #b00020;
+        }
+        .message {
+            border-left: 5px solid #235c7a;
+        }
+
+        .message.success {
+            border-left-color: #198754;
+        }
+
+        .message.error {
+            border-left-color: #dc3545;
+        }
+
+        .message.warning {
+            border-left-color: #ffc107;
+        }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+        .filters {
+            display: grid;
+
+            grid-template-columns:
+        2fr
+        1fr
+        1fr
+        auto;
+
+            gap: 15px;
+
+            align-items: end;
+        }
+
+        .filter-field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        select {
+            width: 100%;
+
+            padding: 10px;
+
+            border: 1px solid #ccd3d9;
+
+            border-radius: 7px;
+
+            box-sizing: border-box;
+        }
+
+        .card-grid {
+            display: grid;
+
+            grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(280px, 1fr)
+        );
+
+            gap: 20px;
+        }
+
+        .card-meta {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+        }
+
+        .badge {
+            display: inline-block;
+
+            padding: 5px 10px;
+
+            border-radius: 20px;
+
+            background: #e5f2f8;
+
+            color: #235c7a;
+
+            font-size: 14px;
+        }
+
+        .muted {
+            color: #637381;
+        }
+
+        .empty-state {
+            text-align: center;
+
+            grid-column: 1 / -1;
+
+            padding: 50px;
+        }
+
+        @media (
+        max-width: 800px
+        ) {
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-actions {
+                flex-wrap: wrap;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <nav>
+
+    <a
+        class="logo"
+        href="
+        {% url 'courses:discipline_list' %}
+        "
+    >
+
+        Teach.ITIS
+
+    </a>
+
+
+    <div>
+
+        {% if user.is_authenticated %}
+
+            <span
+                style="
+                    color: white;
+                    margin-right: 15px;
+                "
+            >
+
+                {{ user.username }}
+
+                ·
+
+                {{ user.get_role_display }}
+
+            </span>
+
+
+            {% if user.is_superuser or user.role == "teacher" or user.role == "admin" %}
+
+                <a
+                    href="
+                    {% url 'courses:discipline_create' %}
+                    "
+                >
+
+                    Добавить дисциплину
+
+                </a>
+
+            {% endif %}
+
+
+            <form
+                method="post"
+                action="
+                {% url 'accounts:logout' %}
+                "
+                style="
+                    display: inline;
+                    margin-left: 15px;
+                "
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    style="
+                        border: none;
+                        background: none;
+                        color: white;
+                        cursor: pointer;
+                    "
+                >
+
+                    Выйти
+
+                </button>
+
+            </form>
+
+
+        {% else %}
+
+            <a
+                href="
+                {% url 'accounts:login' %}
+                "
+            >
+
+                Войти
+
+            </a>
+
+
+            <a
+                href="
+                {% url 'accounts:register' %}
+                "
+                style="
+                    margin-left: 15px;
+                "
+            >
+
+                Регистрация
+
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</nav>
+
+</header>
+
+<main class="container">
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+         <div
+                 class="
+                    card
+                    message
+                    {{ message.tags }}
+            "
+        >
+
+            {{ message }}
+
+        </div>
+
+    {% endfor %}
+
+{% endif %}
+
+    {% block content %}
+    {% endblock %}
+
+</main>
+
+</body>
+
+</html>

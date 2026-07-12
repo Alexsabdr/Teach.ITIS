@@ -1,0 +1,41 @@
+{% extends "courses/base.html" %}
+
+
+{% block title %}
+
+Доступ запрещён — Teach.ITIS
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="card">
+
+    <h1>
+        Ошибка 403
+    </h1>
+
+    <h2>
+        Недостаточно прав
+    </h2>
+
+    <p>
+        {{ error_message }}
+    </p>
+
+    <p>
+        Обратитесь к администратору,
+        если считаете, что доступ должен быть разрешён.
+    </p>
+
+    <a
+        class="button"
+        href="{% url 'courses:discipline_list' %}"
+    >
+        Вернуться к каталогу
+    </a>
+
+</div>
+
+{% endblock %}

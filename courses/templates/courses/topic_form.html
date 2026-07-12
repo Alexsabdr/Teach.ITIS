@@ -1,0 +1,98 @@
+{% extends "courses/base.html" %}
+
+
+{% block title %}
+    {{ page_title }} — Teach.ITIS
+{% endblock %}
+
+
+{% block content %}
+
+<div class="card">
+
+    <h1>
+        {{ page_title }}
+    </h1>
+
+
+    <form method="post">
+
+        {% csrf_token %}
+
+
+        {% for error in form.non_field_errors %}
+
+            <p class="error">
+                {{ error }}
+            </p>
+
+        {% endfor %}
+
+
+        {% for field in form %}
+
+            <div class="form-field">
+
+                <label for="{{ field.id_for_label }}">
+                    {{ field.label }}
+                </label>
+
+
+                {{ field }}
+
+
+                {% if field.help_text %}
+
+                    <small>
+                        {{ field.help_text }}
+                    </small>
+
+                {% endif %}
+
+
+                {% for error in field.errors %}
+
+                    <p class="error">
+                        {{ error }}
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+        {% endfor %}
+
+
+        <button
+            class="button"
+            type="submit"
+        >
+            {{ button_text }}
+        </button>
+
+
+        {% if discipline %}
+
+            <a
+                class="button button-secondary"
+                href="{% url 'courses:discipline_detail' discipline.slug %}"
+            >
+                Отмена
+            </a>
+
+        {% else %}
+
+            <a
+                class="button button-secondary"
+                href="{% url 'courses:discipline_list' %}"
+            >
+                Отмена
+            </a>
+
+        {% endif %}
+
+    </form>
+
+</div>
+
+{% endblock %}
